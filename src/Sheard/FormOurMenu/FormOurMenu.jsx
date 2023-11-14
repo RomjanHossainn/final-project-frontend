@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SingleMenu from "./SingleMenu";
 import SectionTitle from "../../components/SectionTtile/SectionTitle";
+import SectionHeading from "../../components/SectionTtile/SectionHeading";
 
 const FormOurMenu = () => {
     const [menus,setMenus] = useState(null);
@@ -28,6 +29,7 @@ const FormOurMenu = () => {
             <SingleMenu key={menu._id} menu={menu}></SingleMenu>
           ))}
         </div>
+        <SectionHeading heading={"View Full  Menu"}></SectionHeading>
       </section>
     );
 };
