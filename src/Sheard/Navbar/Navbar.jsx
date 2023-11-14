@@ -9,7 +9,7 @@ const Navbar = () => {
         <li className="text-lg"><NavLink>Our Shop</NavLink></li>
     </>
     return (
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 py-5">
         <div className="">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -30,7 +30,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className=" menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className=" menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 z-50"
             >
               {menuLinks}
             </ul>

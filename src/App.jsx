@@ -8,7 +8,6 @@ function App() {
 
   return (
     <>
-      <h1>hello world</h1>
       <Navbar></Navbar>
       <Outlet></Outlet>
       <Footer></Footer>
