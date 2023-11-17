@@ -1,5 +1,6 @@
 
 const ShareChefRecom = ({menu}) => {
+      
      const { category, image, name, price, recipe } = menu || {};
     return (
       <div className="card bg-[#F3F3F3] shadow-xl">

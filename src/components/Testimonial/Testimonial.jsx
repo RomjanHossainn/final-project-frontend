@@ -20,7 +20,7 @@ const Testimonial = () => {
         .then(result => setReviews(result))
     },[])
 
-
+    
 
     return (
       <section className="py-8">

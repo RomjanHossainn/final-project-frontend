@@ -1,12 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
     const menuLinks = <>
         <li className="text-lg"><NavLink>Home</NavLink></li>
         <li className="text-lg"><NavLink>Contact Us</NavLink></li>
         <li className="text-lg"><NavLink>Dashboard</NavLink></li>
-        <li className="text-lg"><NavLink>Our Menu</NavLink></li>
-        <li className="text-lg"><NavLink>Our Shop</NavLink></li>
+        <li className="text-lg"><NavLink to="/ourmenu">Our Menu</NavLink></li>
+        <li className="text-lg"><NavLink to="/ourshop/salad">Our Shop</NavLink></li>
     </>
     return (
       <div className="navbar bg-base-100 py-5">
@@ -46,7 +46,7 @@ const Navbar = () => {
             <div>
                
             </div>
-          <a className="btn">Button</a>
+          <Link to="/login" className="btn">Login</Link>
         </div>
       </div>
     );

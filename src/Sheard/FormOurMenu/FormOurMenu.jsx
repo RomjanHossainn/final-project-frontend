@@ -1,37 +1,32 @@
 import { useEffect, useState } from "react";
 import SingleMenu from "./SingleMenu";
-import SectionTitle from "../../components/SectionTtile/SectionTitle";
+
 import SectionHeading from "../../components/SectionTtile/SectionHeading";
+import { Link } from "react-router-dom";
 
-const FormOurMenu = () => {
-    const [menus,setMenus] = useState(null);
-    useEffect(() => {
-        fetch('/menu.json')
-        .then(res => res.json())
-        .then(result => {
-            const filterMenu = result.filter(
-              (menu) => menu.category === "popular"
-            );
-            setMenus(filterMenu)
-        })
-    },[])
+const FormOurMenu = ({ category}) => {
+  console.log(category)
+  const [menus, setMenus] = useState(null);
+  useEffect(() => {
+    fetch("http://localhost:5000/menus")
+      .then((res) => res.json())
+      .then((result) => {
+        const filterMenu = result.filter((menu) => menu.category === category);
+        setMenus(filterMenu);
+      });
+  }, [category]);
 
-    
-    
-    return (
-      <section>
-        <SectionTitle
-          heading={"FROM OUR MENU"}
-          subHeading={"---Check it out---"}
-        ></SectionTitle>
-        <div className="grid md:grid-cols-2 gap-8 py-12">
-          {menus?.map((menu) => (
-            <SingleMenu key={menu._id} menu={menu}></SingleMenu>
-          ))}
-        </div>
-        <SectionHeading heading={"View Full  Menu"}></SectionHeading>
-      </section>
-    );
+  return (
+    <section>
+      <div className="grid md:grid-cols-2 gap-8 py-12">
+        {menus?.map((menu) => (
+          <SingleMenu key={menu._id} menu={menu}></SingleMenu>
+        ))}
+      </div>
+      <SectionHeading heading={"View Full  Menu"}></SectionHeading>
+      <Link to={`/ourshop/${category}`} className="bg-[#E4A604] px-4 py-3 rounded-md text-white">Order Food</Link>
+    </section>
+  );
 };
 
 export default FormOurMenu;
