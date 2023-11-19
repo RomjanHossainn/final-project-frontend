@@ -7,13 +7,11 @@ import salad from '../../assets/menu/salad-bg.jpg'
 import soup from '../../assets/menu/soup-bg.jpg'
 import TodayOffer from "../../Sheard/TodyOffer/TodayOffer";
 import FormOurMenu from "../../Sheard/FormOurMenu/FormOurMenu";
+import AppHealmet from "../../Sheard/AppHealmet/AppHealmet";
 const OurMenu = () => {
   return (
     <>
-      <Helmet>
-        <title>Bistro || Menu</title>
-      </Helmet>
-
+      <AppHealmet title={'Bistro || Menu'}></AppHealmet>
       <div className=" space-y-10">
         <MenuCover
           title={"OUR MENU"}

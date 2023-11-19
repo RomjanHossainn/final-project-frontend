@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../../firebase/firebase.config";
 
@@ -26,12 +26,20 @@ const AuthProvider = ({children}) => {
         const unSubsCribe = onAuthStateChanged(auth,currenUser => {
             setUser(currenUser);
             setLoading(false)
+            console.log(currenUser)
+            if(currenUser){
+                sendEmailVerification(currenUser).then(() => {
+                  console.log("Sending Verification EMAIL");
+                });
+            }
         })
 
         return () => {
             unSubsCribe()
         }
     },[])
+
+    
 
 
     const authInfo = {

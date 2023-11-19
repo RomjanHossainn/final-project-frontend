@@ -5,14 +5,14 @@ import CategoryesFood from "../../components/CategoryesFood/CategoryesFood";
 import ChefRecommends from "../../components/ChefRecommends/ChefRecommends";
 import Testimonial from "../../components/Testimonial/Testimonial";
 import SectionTitle from "../../components/SectionTtile/SectionTitle";
+import AppHealmet from "../../Sheard/AppHealmet/AppHealmet";
 
 const Home = () => {
+    
     return (
       <div>
         
-        <Helmet>
-          <title>Bistro || Home</title>
-        </Helmet>
+        <AppHealmet title={'Bistro || Home'}></AppHealmet>
         <Banner></Banner>
         <CategoryesFood></CategoryesFood>
 

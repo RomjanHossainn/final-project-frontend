@@ -4,9 +4,12 @@ import "react-tabs/style/react-tabs.css";
 import useMenus from "../../hooks/useMenus";
 import MapingMenu from "../../Sheard/MapingMenu/MapingMenu";
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+
+import AppHealmet from "../../Sheard/AppHealmet/AppHealmet";
 
 const OurShop = () => {
+
+    
 
     const categoryArray = ['salad','pizza','soup','dessert','drinks']
     const {category} = useParams();
@@ -26,9 +29,7 @@ const OurShop = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>Distro || Order Food</title>
-      </Helmet>
+      <AppHealmet title={"Distro || Order Food"}></AppHealmet>
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Salad</Tab>
@@ -41,7 +42,7 @@ const OurShop = () => {
         <TabPanel>
           <MapingMenu meuns={salad}></MapingMenu>
         </TabPanel>
-        
+
         <TabPanel>
           <MapingMenu meuns={pizza}></MapingMenu>
         </TabPanel>
@@ -51,11 +52,10 @@ const OurShop = () => {
         <TabPanel>
           <MapingMenu meuns={drinks}></MapingMenu>
         </TabPanel>
-        
+
         <TabPanel>
           <MapingMenu meuns={dessert}></MapingMenu>
         </TabPanel>
-        
       </Tabs>
     </div>
   );
