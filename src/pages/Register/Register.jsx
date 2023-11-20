@@ -3,18 +3,42 @@ import {Link} from "react-router-dom";
 import { useForm} from "react-hook-form";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import AppHealmet from "../../Sheard/AppHealmet/AppHealmet";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../Sheard/SocialLogin/SocialLogin";
+
 const Register = () => {
+
+    const axiosPublic = useAxiosPublic()
 
     const {register,handleSubmit,formState: { errors },} = useForm();
 
-    const {createUser} = useContext(AuthContext)
+    const {createUser,updateUserProfile} = useContext(AuthContext)
     
     const formSubmit = (data) => {
+      
       if(data){
         createUser(data.email,data.password)
         .then(result => {
           const user=  result.user;
-          console.log(user)
+          updateUserProfile(data.name,data.photoURL)
+          .then(() => {
+            console.log('Profile Update Success')
+
+            const publicInfo = {
+              name : data.name,
+              email : data.email
+            }
+
+            axiosPublic.post('/publicinfo',publicInfo)
+            .then(res => {
+              console.log(res.data)
+            })
+
+
+          })
+          .catch(erorr => {
+            console.log(erorr.message)
+          })
         })
 
         .catch(erorr => {
@@ -22,6 +46,8 @@ const Register = () => {
         })
       }
     }
+
+    
 
     const registerOptions = {
       name: { required: "Name is required" },
@@ -42,11 +68,12 @@ const Register = () => {
       },
     };
    
+
     
 
     return (
       <>
-      <AppHealmet title={'Bistro || Register'}></AppHealmet>
+        <AppHealmet title={"Bistro || Register"}></AppHealmet>
         <section className="text-gray-600 body-font">
           <div className="container justify-center px-5 py-24 mx-auto flex flex-wrap items-center">
             <form onSubmit={handleSubmit(formSubmit)}>
@@ -103,18 +130,17 @@ const Register = () => {
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
                 <div className="relative mb-4">
-                  {/* <div>
-                  <LoadCanvasTemplate />
-                </div> */}
+                  <label htmlFor="" className="leading-7 text-sm text-gray-600">
+                    Photo URL
+                  </label>
                   <input
                     type="text"
-                    // ref={captchaRef}
-                    id="capcha"
-                    name="capcha"
+                    {...register("photoURL", registerOptions.photoURL)}
+                    id=""
+                    name="photoURL"
                     className="w-full mt-3 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
-                  {/* onClick={validedCaptcha} */}
-                  <button className="btn mt-3">Captcha Valided</button>
+                  {errors.photoURL && <p>{errors.photoURL.message}</p>}
                 </div>
                 <button
                   // disabled={disabld}
@@ -122,6 +148,9 @@ const Register = () => {
                 >
                   Register
                 </button>
+
+                <SocialLogin></SocialLogin>
+                
                 <p className="text-xs text-gray-500 mt-3">
                   Already have an accoutn,
                   <Link className="text-indigo-600 font-bold" to="/login">

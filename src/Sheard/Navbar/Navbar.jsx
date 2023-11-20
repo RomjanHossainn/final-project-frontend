@@ -1,10 +1,14 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
-
+import { FaCartShopping } from "react-icons/fa6";
+import useCarts from "../../hooks/useCarts";
 const Navbar = () => {
-    const {user,logOut} = useContext(AuthContext)
+    const {user,logOut,loading} = useContext(AuthContext)
 
+    const [carts] = useCarts();
+
+    
 
     const handleLogout = () => {
       logOut()
@@ -58,9 +62,30 @@ const Navbar = () => {
           <div className="hidden md:block mr-5 ">
             <ul className=" menu-horizontal px-1 gap-5">{menuLinks}</ul>
           </div>
-          <div></div>
+          <Link to="/dashboard/dsmycarts" className="btn mr-5">
+            <FaCartShopping></FaCartShopping>
+            <div className="badge badge-secondary">+{carts.length}</div>
+          </Link>
+          <div className="mr-3">
+            {loading ? (
+              ""
+            ) : (
+              <>
+                <img
+                  className="w-10 rounded-full h-10 mx-auto"
+                  src={user? user.photoURL : ''}
+                  
+                  
+                  alt=""
+                />
+                <p>{user ? user?.displayName : ""}</p>
+              </>
+            )}
+          </div>
           {user ? (
-            <a onClick={handleLogout} className="btn">Log out</a>
+            <a onClick={handleLogout} className="btn">
+              Log out
+            </a>
           ) : (
             <Link to="/login" className="btn">
               Login

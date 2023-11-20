@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged,  signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../../firebase/firebase.config";
-
+import { GoogleAuthProvider } from "firebase/auth";
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({children}) => {
@@ -9,6 +9,10 @@ const AuthProvider = ({children}) => {
 
     const [user,setUser] = useState(null);
     const [loading,setLoading] = useState(true);
+
+
+    
+    const googleProvider = new GoogleAuthProvider();
 
 
     const createUser = (email,password) => {
@@ -19,6 +23,21 @@ const AuthProvider = ({children}) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth,email,password)
     }
+
+    const googleSignUp = () => {
+        setLoading(true);
+        return signInWithPopup(auth,googleProvider)
+    }
+
+
+    const updateUserProfile = (name,photoURL) => {
+        return updateProfile(auth.currentUser,{
+            displayName : name,photoURL : photoURL
+        })
+    }
+
+    
+
     const logOut = () => {
         return signOut(auth)
     }
@@ -27,11 +46,14 @@ const AuthProvider = ({children}) => {
             setUser(currenUser);
             setLoading(false)
             console.log(currenUser)
-            if(currenUser){
-                sendEmailVerification(currenUser).then(() => {
-                  console.log("Sending Verification EMAIL");
-                });
-            }
+            // if(currenUser){
+            //     sendEmailVerification(currenUser).then(() => {
+            //       console.log("Sending Verification EMAIL");
+            //     })
+            //     .catch(erorr => {
+            //         console.log(erorr.message)
+            //     })
+            // }
         })
 
         return () => {
@@ -43,12 +65,14 @@ const AuthProvider = ({children}) => {
 
 
     const authInfo = {
-        user,
-        loading,
-        logOut,
-        createUser,
-        signInUser
-    }
+      user,
+      loading,
+      logOut,
+      createUser,
+      signInUser,
+      updateUserProfile,
+      googleSignUp,
+    };
 
     return (
         <AuthContext.Provider value={authInfo}>
@@ -56,5 +80,9 @@ const AuthProvider = ({children}) => {
         </AuthContext.Provider>
     );
 };
+
+
+
+
 
 export default AuthProvider;

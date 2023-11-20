@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import AppHealmet from "../../Sheard/AppHealmet/AppHealmet";
+import SocialLogin from "../../Sheard/SocialLogin/SocialLogin";
 const Login = () => {
 
   const {signInUser} = useContext(AuthContext)
+
+  const navigateCurrent = useNavigate()
+
+  const location = useLocation();
+
 
   const {
     register,
@@ -18,6 +24,9 @@ const Login = () => {
     signInUser(data.email,data.password)
     .then(result => {
       console.log(result.user)
+
+      navigateCurrent(location.state ? location.state : '/')
+
     })
     .catch(erorr => {
       console.log(erorr.message)
@@ -30,6 +39,8 @@ const Login = () => {
     
   };
      
+
+  
 
 
     return (
@@ -71,6 +82,7 @@ const Login = () => {
                 <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                   Login
                 </button>
+                <SocialLogin></SocialLogin>
                 <p className="text-xs text-gray-500 mt-3 text-center">
                   <p>
                     Already No Account,{" "}
