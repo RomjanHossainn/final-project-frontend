@@ -13,6 +13,9 @@ import UserHome from "../pages/Dashboard/UserHome/UserHome";
 import ReserVation from "../pages/Dashboard/ReserVation/ReserVation";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import MyBookings from "../pages/Dashboard/MyBookings/MyBookings";
+import AllUsers from "../AdminDashBoard/AllUsers/AllUsers";
+import AdminPrivet from "../AdminDashBoard/AllUsers/AdminPrivet";
+import AddItem from "../pages/Dashboard/AddItem/AddItem";
 
 
 
@@ -81,7 +84,25 @@ const router = createBrowserRouter([
         path: "/dashboard/mybookings",
         element: <MyBookings></MyBookings>,
       },
-      
+
+      // admin dashboad
+
+      {
+        path: "/dashboard/allusers",
+        element: (
+          <AdminPrivet>
+            <AllUsers></AllUsers>
+          </AdminPrivet>
+        ),
+      },
+      {
+        path: "/dashboard/additems",
+        element: (
+          <AdminPrivet>
+            <AddItem></AddItem>
+          </AdminPrivet>
+        ),
+      },
     ],
   },
 ]);

@@ -33,12 +33,15 @@ const SocialLogin = () => {
         })
     }
 
+    
+    
     return (
       <div>
         <button onClick={handleGoogle} className="btn mt-3">
           <FaGoogle></FaGoogle>
           <p>Google</p>
         </button>
+        
       </div>
     );
 };

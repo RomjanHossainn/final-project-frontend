@@ -4,10 +4,11 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCarts from "../../hooks/useCarts";
+import useAdmin from "../../hooks/useAdmin";
 
 const ShareChefRecom = ({menu}) => {
 
-
+    
     const [,refetch] = useCarts()
 
      const { image, name, price,category, recipe,_id } = menu || {};
@@ -16,7 +17,21 @@ const ShareChefRecom = ({menu}) => {
 
      const axiosSecure = useAxiosSecure();
 
+     const [isAdmin] = useAdmin()
+
      const addToCart = () => {
+
+
+        if(isAdmin){
+          return Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: `${name} sorry you are admin`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+
         if(user && user?.email){
           const orderCarts = {
               menuId : _id,

@@ -8,16 +8,19 @@ const Login = () => {
 
   const {signInUser} = useContext(AuthContext)
 
+  
   const navigateCurrent = useNavigate()
 
   const location = useLocation();
 
+    
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
 
   const formSubmit = (data) => {
     console.log(data)
@@ -40,6 +43,7 @@ const Login = () => {
   };
      
 
+    
   
 
 

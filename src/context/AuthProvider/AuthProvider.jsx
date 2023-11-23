@@ -2,6 +2,8 @@ import { createUserWithEmailAndPassword, onAuthStateChanged,  signInWithEmailAnd
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../../firebase/firebase.config";
 import { GoogleAuthProvider } from "firebase/auth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({children}) => {
@@ -9,11 +11,8 @@ const AuthProvider = ({children}) => {
 
     const [user,setUser] = useState(null);
     const [loading,setLoading] = useState(true);
-
-
-    
+    const axiosPublic = useAxiosPublic()
     const googleProvider = new GoogleAuthProvider();
-
 
     const createUser = (email,password) => {
         setLoading(true)
@@ -24,13 +23,15 @@ const AuthProvider = ({children}) => {
         return signInWithEmailAndPassword(auth,email,password)
     }
 
+    
+
     const googleSignUp = () => {
         setLoading(true);
         return signInWithPopup(auth,googleProvider)
     }
 
-
     const updateUserProfile = (name,photoURL) => {
+        setLoading(true)
         return updateProfile(auth.currentUser,{
             displayName : name,photoURL : photoURL
         })
@@ -38,31 +39,40 @@ const AuthProvider = ({children}) => {
 
     
 
+    
+
     const logOut = () => {
+        setLoading(true)
         return signOut(auth)
     }
     useEffect(() => {
         const unSubsCribe = onAuthStateChanged(auth,currenUser => {
             setUser(currenUser);
-            setLoading(false)
-            console.log(currenUser)
-            // if(currenUser){
-            //     sendEmailVerification(currenUser).then(() => {
-            //       console.log("Sending Verification EMAIL");
-            //     })
-            //     .catch(erorr => {
-            //         console.log(erorr.message)
-            //     })
-            // }
+            if(currenUser){
+                    axiosPublic
+                      .post("/jwt", { email: currenUser?.email })
+                      .then((res) => {
+                        if (res.data.token) {
+                          localStorage.setItem("ACCESS_TOKEN", res.data.token);
+                          setLoading(false);
+                        }
+                      });
+                
+            }else{
+                localStorage.removeItem("ACCESS_TOKEN");
+                setLoading(false)
+            }
         })
 
         return () => {
             unSubsCribe()
+            
         }
-    },[])
+    },[axiosPublic])
+
 
     
-
+    
 
     const authInfo = {
       user,
